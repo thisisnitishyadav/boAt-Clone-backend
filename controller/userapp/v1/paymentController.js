@@ -9,6 +9,67 @@ const validation = require('../../../utils/validateRequest');
 const dbService = require('../../../utils/dbServices');
 const ObjectId = require('mongodb').ObjectId;
 const utils = require('../../../utils/comon');
+const { instance } = require('../../../services/payment/razorpay');
+const crypto = require('crypto');
+const dotenv = require('dotenv');
+dotenv.config({ path: '.env' });
+
+
+/**
+ * checkout payment
+ */
+const checkout = async (req,res) =>{ 
+  const options = {
+    amount : req.body.amount,
+    currency : req.body.currency
+  }
+  try{
+  const order = await instance.orders.create(options);
+  res.status(200).json({
+    status:'SUCCESS',
+    order
+  })
+  }catch(err){
+    console.log(err)
+  }
+}
+
+/**
+* verify payment
+* create payment
+*/
+const paymentVerify = async (req,res) =>{ 
+const {razorpay_order_id, razorpay_payment_id, razorpay_signature} = req.body;
+console.log(req.body,'this is verify');
+const body = razorpay_order_id + "|" + razorpay_payment_id;
+const expectedSignature = crypto.createHmac("sha256", process.env.RAZORPAY_API_SECRET)
+                            .update(body.toString())
+                            .digest('hex');
+const isAuthentic =  expectedSignature === razorpay_signature     
+console.log(isAuthentic,'this is authenticate');
+if(isAuthentic){
+  console.log(isAuthentic,'this is authenticate');
+  try {
+    let dataToCreate = { order_id:razorpay_order_id,payment_id:razorpay_payment_id,signature:razorpay_signature};
+    dataToCreate.paymentStatus="success";
+    dataToCreate = new Payment(dataToCreate);
+    let foundOrder = await dbService.findOne(Payment,{order_id:razorpay_order_id});
+    console.log(foundOrder,'find order');
+    if(!foundOrder){
+    let createdPayment = await dbService.create(Payment,dataToCreate);
+    res.redirect(`${process.env.RAZORPAY_REDIRECTURL}?payment_id=${createdPayment.id}`);
+    } else{
+      res.redirect(`${process.env.RAZORPAY_ERRORURL}`);
+    }
+  } catch (error) {
+    res.redirect(`${process.env.RAZORPAY_ERRORURL}`);
+  }
+} else{
+  res.redirect(`${process.env.RAZORPAY_ERRORURL}`);
+}
+ 
+}
+
    
 /**
  * @description : create document of Payment in mongodb collection.
@@ -324,5 +385,7 @@ const softDeleteManyPayment = async (req,res) => {
     softDeletePayment,
     deletePayment,
     deleteManyPayment,
-    softDeleteManyPayment    
+    softDeleteManyPayment,
+    checkout,
+    paymentVerify    
   };

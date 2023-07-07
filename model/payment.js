@@ -24,11 +24,14 @@ const myCustomLabels = {
         ref: 'user',
         type: Schema.Types.ObjectId
       },
-    refId:{type:String},
-    paymentChannel:{type:String},
-    currentPayment:{type:Number},
-    totalPayment:{type:Number},
-    paymentStatus: { type: String, enum: ['pending', 'success', 'failed', 'refunded', 'partial'], default: 'pending' },
+      refId:{type:String},
+      paymentChannel:{type:String},
+      currentPayment:{type:Number},
+      totalPayment:{type:Number},
+      order_id:{type:String},
+      payment_id:{type:String},
+      signature:{type:String},
+      paymentStatus: { type: String, enum: ['pending', 'success', 'failed', 'refunded', 'partial'], default: 'pending' },
     addedBy: {
         ref: 'user',
         type: Schema.Types.ObjectId
