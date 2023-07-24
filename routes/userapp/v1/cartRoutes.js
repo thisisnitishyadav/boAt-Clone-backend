@@ -11,6 +11,7 @@ router.get('/get/:id',auth(PLATFORM.USERAPP), cartController.getCart);
 router.put('/update/:id',auth(PLATFORM.USERAPP), cartController.updateCart);
 router.delete('/delete/:id',auth(PLATFORM.USERAPP), cartController.deleteCart);
 router.delete('/soft-delete/:id',auth(PLATFORM.USERAPP), cartController.softDeleteCart);
+router.put('/softDeleteMany',auth(PLATFORM.USERAPP), cartController.softDeleteManyCart);
 
 
 module.exports = router;

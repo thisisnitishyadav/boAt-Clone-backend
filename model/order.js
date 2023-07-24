@@ -78,6 +78,9 @@ const myCustomLabels = {
     ref: 'payment',
     type: Schema.Types.ObjectId
   },
+  orderId:{
+    type:String
+  },
      
       addedBy: {
         ref: 'user',
