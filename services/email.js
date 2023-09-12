@@ -13,7 +13,7 @@ apiKey.apiKey = process.env.SIB_API_KEY;
 const tranEmailApi = new SibApiV3Sdk.TransactionalEmailsApi();
 
 const sendMail =  async (obj) => {
-
+ 
   let htmlText = '';
   if (obj.template){
     htmlText = await ejs.renderFile(`${__basedir}${obj.template}/html.ejs`, {data:obj.data || null});

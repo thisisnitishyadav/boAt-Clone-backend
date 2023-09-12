@@ -25,6 +25,7 @@ const myCustomLabels = {
     password: {
         type: String,
       },
+      name:{type:String},
       firstName:{type:String},
       lastName:{type:String},
       sex:{type:String},
