@@ -30,10 +30,10 @@ const register = async (req,res) =>{
       }
      console.log(req.body);
       // validation  
-      let validateRequest = validation.validateParamsWithJoi(
-        req.body,
-        userSchemaKey.schemaKeys
-      );
+      // let validateRequest = validation.validateParamsWithJoi(
+      //   req.body,
+      //   userSchemaKey.schemaKeys
+      // );
       if (!validateRequest.isValid) {
         return res.validationError({ message :  `Invalid values in parameters, ${validateRequest.message}` });
       } 
