@@ -34,9 +34,9 @@ const register = async (req,res) =>{
       //   req.body,
       //   userSchemaKey.schemaKeys
       // );
-      if (!validateRequest.isValid) {
-        return res.validationError({ message :  `Invalid values in parameters, ${validateRequest.message}` });
-      } 
+      // if (!validateRequest.isValid) {
+      //   return res.validationError({ message :  `Invalid values in parameters, ${validateRequest.message}` });
+      // } 
      
       const data = new User({
         ...req.body,
