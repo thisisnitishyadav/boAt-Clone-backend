@@ -7,8 +7,6 @@ const User = require('../../../model/user');
 const dbService = require('../../../utils/dbServices');
 const userTokens = require('../../../model/userTokens');
 const dayjs = require('dayjs');
-const userSchemaKey = require('../../../utils/validation/userValidation');
-const validation = require('../../../utils/validateRequest');
 const authConstant = require('../../../constants/authConstant');
 const authService = require('../../../services/auth');
 const common = require('../../../utils/comon');
@@ -29,14 +27,7 @@ const register = async (req,res) =>{
         return res.badRequest({ message: 'Insufficient request parameters! email or phone  is required.' });
       }
      console.log(req.body);
-      // validation  
-      // let validateRequest = validation.validateParamsWithJoi(
-      //   req.body,
-      //   userSchemaKey.schemaKeys
-      // );
-      // if (!validateRequest.isValid) {
-      //   return res.validationError({ message :  `Invalid values in parameters, ${validateRequest.message}` });
-      // } 
+    
      
       const data = new User({
         ...req.body,
